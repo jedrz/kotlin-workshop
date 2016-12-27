@@ -1,0 +1,218 @@
+# -*- ispell-local-dictionary: "polish"; -*-
+#+REVEAL_ROOT: ./reveal.js-3.3.0
+#+REVEAL_THEME: white
+#+REVEAL_PLUGINS: (highlight)
+#+REVEAL_HIGHLIGHT_CSS: ./highlight/styles/vs.css
+#+REVEAL_MARGIN: 0.05
+#+OPTIONS: reveal_title_slide:nil num:nil toc:nil reveal_history:t
+
+* Slajd tytułowy
+
+Łukasz Jędrzejewski
+
+* Kotlin?
+
+Tu obrazek z logiem kotlina.
+
+** Wersja 1.0
+
+Wydana 15 lutego 2016.
+
+** Cechy
+
+- wsparcie dla map, itd.
+
+* Język
+** Wyrażenia (wywalić?)
+
+- po javowemu
+
+#+BEGIN_SRC kotlin
+  fun newOrNull(value: String?): Msisdn {
+      if (value != null) {
+          return Msisdn(value)
+      } else {
+          return null
+      }
+  }
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+- Ale if zwraca? (CHCE TO JAKO JEDNO POKAZAĆ)
+
+#+ATTR_REVEAL: :frag t :frag_idx 1
+#+BEGIN_SRC kotlin
+  fun newOrNull(value: String?): Msisdn {
+      return if (value != null) {
+          Msisdn(value)
+      } else {
+          null
+      }
+  }
+#+END_SRC
+
+** Jawna obsługa null
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  val a: String? = null
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  a.length    // błąd kompilacji
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  val a: String = null    // błąd kompilacji
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+- funkcje także są chronione
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  fun add1(value: Int) = value + 1
+
+  add1(null)    // błąd kompilacji
+#+END_SRC
+
+** Elvis
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  fun findUser(name: String): User?
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+val name = "Elvis"
+val user = findUser(name)
+
+val id: Long = user.id    // błąd kompilacji
+val maybeId: Long? = user?.id
+val id: Long = user?.id ?: throw UserNotFoundException()
+val id: Long = user?.id ?: return log.warn("User: $name not found")
+#+END_SRC
+
+** Inteligentne rzutowanie
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+fun addMaybe1(value: Any?) =
+        if (value is Int) value.toLong() + 1 else value
+#+END_SRC
+
+** Data klasy
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  data class User(val id: Long,
+                  val firstName: String,
+                  val lastName: String)
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC java
+  @AllArgsConstructor
+  @Getter
+  @ToString
+  @EqualsAndHashCode
+  @Wither
+  public final class User {
+      private final Long id;
+      private final String firstName;
+      private final String lastName;
+  }
+#+END_SRC
+
+#+ATTR_REVEAL: :frag roll-in
+- niemutowalne (gdy nie używamy =var=) - modyfikacja przez =copy=
+- destructing bind (TODO przykład)
+- (ale np. na listach nie działa)
+- nie ma pattern matchingu
+
+** Nazwane argumenty
+
+- przy wywołaniu można nazwać argumenty
+- dodatkowo nadać domyślne wartości
+- wypada konieczność używania builderów
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  data class User(
+          val firstName: String,
+          val lastName: String,
+          val login: String = toukizedLogin(firstName, lastName))
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  User(firstName = "Łukasz", lastName = "Jędrzejewski")
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  User(firstName = "Jakub", lastName = "Nowakowski", login = "kn")
+#+END_SRC
+
+** Funkcje rozszerzające
+
+- nie modyfikują klas
+- zaimplementowane jako funkcje statyczne
+
+przykład
+
+** Funkcje rozszerzające na nullach
+
+skopiowany, dać swój
+
+#+BEGIN_SRC kotlin
+  fun Any?.toString(): String {
+      if (this == null) return "null"
+      // after the null check, 'this' is autocast to a non-null type, so the toString() below
+      // resolves to the member function of the Any class
+      return toString()
+  }
+#+END_SRC
+
+** Etykiety
+
+- wyskakiwanie z lambdy
+- this z etykietą (that)
+
+** Oraz
+
+- delegacja
+- delegacja "pól" - wbudowane =lazy=, =observable=
+
+* W praktyce
+** Null safety
+
+Przykład.
+
+Może Box(x) ?
+
+** Fluent buildery
+
+Przykład
+
+* Spring
+** Final/open
+** Jackson
+
+Not null i wejdzie null to wyleci.
+
+moduł jackson-kotlin
+
+* Testowanie
+
+Można fun `should cos`() {}
+Problemy z finalami.
+Problemy z mockito - dlaczego potrzebna nakładka.
+
+* Lokowanie produktu
+
+Emacs + org-mode
+
