@@ -108,9 +108,9 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  data class User(val id: Long,
-                  val firstName: String,
-                  val lastName: String)
+  data class Developer(val firstName: String,
+                       val lastName: String,
+                       val login: String)
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
@@ -121,9 +121,9 @@ fun addMaybe1(value: Any?) =
   @EqualsAndHashCode
   @Wither
   public final class User {
-      private final Long id;
       private final String firstName;
       private final String lastName;
+      private final String login;
   }
 #+END_SRC
 
@@ -141,7 +141,7 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  data class User(
+  data class Developer(
           val firstName: String,
           val lastName: String,
           val login: String = toukizedLogin(firstName, lastName))
@@ -149,13 +149,33 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  User(firstName = "Łukasz", lastName = "Jędrzejewski")
+  Developer(firstName = "Łukasz", lastName = "Jędrzejewski")
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  User(firstName = "Jakub", lastName = "Nowakowski", login = "kn")
+  Developer(firstName = "Jakub",
+            lastName = "Nowakowski",
+            login = "kn")
 #+END_SRC
+
+*** A korzystając z biblioteki w Javie mogę tak napisać?
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  import org.springframework.security.core.userdetails.User
+
+  User(username = username,
+       password = password,
+       enabled = enabled,
+       accountNonExpired = true,
+       credentialsNonExpired = true,
+       accountNonLocked = true,
+       authorities = listOf(SimpleGrantedAuthority("ROLE_REGISTERED")))
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+Nie bardzo...
 
 ** Funkcje rozszerzające
 
