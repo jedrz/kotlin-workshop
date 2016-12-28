@@ -129,7 +129,7 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag roll-in
 - niemutowalne (gdy nie używamy =var=) - modyfikacja przez =copy=
-- destructing bind (TODO przykład)
+- destructuring bind (TODO przykład)
 - (ale np. na listach nie działa)
 - nie ma pattern matchingu
 
@@ -195,13 +195,38 @@ Nie bardzo...
 - wyskakiwanie z lambdy
 - this z etykietą (that)
 
+TODO: przykład
+
+** Kolekcje
+
+TODO
+
+** Let, run, with, apply
+
+TODO lub wywalić
+
+** Generyki
+
+TODO lub wywalić
+
+** Adnotacje
+
+TODO lub wywalić
+
+- dziwna składnia adnotacji
+- adnotacje na property
+
 ** Oraz
 
 - delegacja
 - delegacja "pól" - wbudowane =lazy=, =observable=
 
+TODO
+
 * W praktyce
 ** Null safety
+
+TODO
 
 Przykład.
 
@@ -209,9 +234,18 @@ Może Box(x) ?
 
 ** Fluent buildery
 
+TODO
+
 Przykład
 
 * Spring
+
+Jak pomaga spring 4.3 - musielibyśmy pisąc @Autowired constructor (...)
+
+Open classy
+
+ConfigurationProperties - słabe.
+
 ** Final/open
 ** Jackson
 
@@ -225,7 +259,12 @@ Można fun `should cos`() {}
 Problemy z finalami.
 Problemy z mockito - dlaczego potrzebna nakładka.
 
+* Kotlin 1.1
+
+TODO
+
 * Lokowanie produktu
 
 Emacs + org-mode
 
+* Dziękuję!
