@@ -261,7 +261,15 @@ Problemy z mockito - dlaczego potrzebna nakładka.
 
 * Kotlin 1.1
 
-TODO
+#+ATTR_REVEAL: :frag t
+- będzie można dziedziczyć z data klas, uff
+#+ATTR_REVEAL: :frag t
+- =myService::aMethod=, (aktualnie wspierane jest jedynie odniesienie do funkcji,
+  np. =String::length=)
+#+ATTR_REVEAL: :frag t
+- async/await
+- aliasy
+- wsparcie dla Javy 8 (streamy, domyślne metody z intefejsów)
 
 * Lokowanie produktu
 
