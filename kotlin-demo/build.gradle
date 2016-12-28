@@ -29,4 +29,5 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.assertj:assertj-core:3.6.1"
     testCompile "com.nhaarman:mockito-kotlin:1.1.0"
+    testCompile 'de.jodamob.kotlin:kotlin-runner-junit4:0.3.1'
 }
