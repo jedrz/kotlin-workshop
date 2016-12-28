@@ -182,18 +182,11 @@ Nie bardzo...
 - nie modyfikują klas
 - zaimplementowane jako funkcje statyczne
 
-przykład
-
 ** Funkcje rozszerzające na nullach
-
-skopiowany, dać swój
 
 #+BEGIN_SRC kotlin
   fun Any?.toString(): String {
-      if (this == null) return "null"
-      // after the null check, 'this' is autocast to a non-null type, so the toString() below
-      // resolves to the member function of the Any class
-      return toString()
+      return if (this == null) "null" else toString()
   }
 #+END_SRC
 
