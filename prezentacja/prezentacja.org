@@ -120,7 +120,7 @@ fun addMaybe1(value: Any?) =
   @ToString
   @EqualsAndHashCode
   @Wither
-  public final class User {
+  public final class Developer {
       private final String firstName;
       private final String lastName;
       private final String login;
