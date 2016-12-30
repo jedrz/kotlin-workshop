@@ -200,7 +200,24 @@ TODO: przykład
 
 ** Kolekcje
 
-TODO
+#+ATTR_REVEAL: :frag t
+- niemutowalne (dostępne warianty mutowalne)
+#+ATTR_REVEAL: :frag t
+- niepersystentne
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+/**
+ * Returns a list containing all elements of the original collection and then the given [element].
+ */
+public operator fun <T> Collection<T>.plus(element: T): List<T> {
+    val result = ArrayList<T>(size + 1)
+    result.addAll(this)
+    result.add(element)
+    return result
+}
+#+END_SRC
+#+ATTR_REVEAL: :frag t
+- kompatybilne z interfejsami kolekcji z Javy
 
 ** Let, run, with, apply
 
