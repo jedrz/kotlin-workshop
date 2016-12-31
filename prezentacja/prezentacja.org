@@ -10,6 +10,13 @@
 
 Łukasz Jędrzejewski
 
+* Plan
+
+- język
+- Spring
+- testowanie
+- Kotlin 1.1
+
 * Kotlin?
 
 #+ATTR_HTML: :width 200px
@@ -21,7 +28,9 @@ Wydana 15 lutego 2016.
 
 ** Cechy
 
-- wsparcie dla map, itd.
+- obiektowy
+- funkcyjny
+- uruchamiany na JVM
 
 * Język
 ** Wyrażenia (wywalić?)
@@ -184,6 +193,11 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 Nie bardzo...
+** when
+
+#+ATTR_REVEAL: :frag (t)
+- zamiast instrukcji =switch=
+
 ** Funkcje rozszerzające
 
 - nie modyfikują klas
@@ -196,23 +210,6 @@ Nie bardzo...
       return if (this == null) "null" else toString()
   }
 #+END_SRC
-
-** Etykiety
-
-#+ATTR_REVEAL: :frag t
-- wyskakiwanie z lambd
-  #+BEGIN_SRC kotlin
-    list.map { value ->
-        repeat(10) {
-            val result = tryToDoSth(value)
-            if (result != null) {
-                return@map result
-            }
-        }
-        null
-    }
-  #+END_SRC
-- odwołania do zewnętrznych =this=
 
 ** Kolekcje
 
@@ -232,9 +229,26 @@ Nie bardzo...
   #+END_SRC
 - kompatybilne z interfejsami kolekcji z Javy
 
-** Let, run, with, apply
+** Etykiety
 
-TODO lub wywalić
+#+ATTR_REVEAL: :frag t
+- wyskakiwanie z lambd
+  #+BEGIN_SRC kotlin
+    list.map { value ->
+        repeat(10) {
+            val result = tryToDoSth(value)
+            if (result != null) {
+                return@map result
+            }
+        }
+        null
+    }
+  #+END_SRC
+- odwołania do zewnętrznych =this=
+
+** let, run, with, apply
+
+- głównie do pracy z nullami i setterami
 
 ** Generyki
 
