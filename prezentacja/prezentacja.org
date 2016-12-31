@@ -26,31 +26,27 @@ Wydana 15 lutego 2016.
 * Język
 ** Wyrażenia (wywalić?)
 
+#+ATTR_REVEAL: :frag (t)
 - po javowemu
-
-#+BEGIN_SRC kotlin
-  fun newOrNull(value: String?): Msisdn {
-      if (value != null) {
-          return Msisdn(value)
-      } else {
-          return null
-      }
-  }
-#+END_SRC
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-- Ale if zwraca? (CHCE TO JAKO JEDNO POKAZAĆ)
-
-#+ATTR_REVEAL: :frag t :frag_idx 1
-#+BEGIN_SRC kotlin
-  fun newOrNull(value: String?): Msisdn {
-      return if (value != null) {
-          Msisdn(value)
-      } else {
-          null
-      }
-  }
-#+END_SRC
+  #+BEGIN_SRC kotlin
+    fun newOrNull(value: String?): Msisdn {
+        if (value != null) {
+            return Msisdn(value)
+        } else {
+            return null
+        }
+    }
+  #+END_SRC
+- Ale if zwraca?
+  #+BEGIN_SRC kotlin
+    fun newOrNull(value: String?): Msisdn {
+        return if (value != null) {
+            Msisdn(value)
+        } else {
+            null
+        }
+    }
+  #+END_SRC
 
 ** Jawna obsługa null
 
@@ -128,9 +124,20 @@ fun addMaybe1(value: Any?) =
   }
 #+END_SRC
 
-#+ATTR_REVEAL: :frag roll-in
+** Data klasy cd.
+
+#+BEGIN_SRC kotlin
+  data class Developer(val firstName: String,
+                       val lastName: String,
+                       val login: String)
+#+END_SRC
+
+#+ATTR_REVEAL: :frag (t)
 - niemutowalne (gdy nie używamy =var=) - modyfikacja przez =copy=
-- destructuring bind (TODO przykład)
+- destructuring bind
+  #+BEGIN_SRC kotlin
+  val (fn, ln) = developer
+  #+END_SRC
 - (ale np. na listach nie działa)
 - nie ma pattern matchingu
 
@@ -177,7 +184,6 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 Nie bardzo...
-
 ** Funkcje rozszerzające
 
 - nie modyfikują klas
@@ -200,23 +206,20 @@ TODO: przykład
 
 ** Kolekcje
 
-#+ATTR_REVEAL: :frag t
+#+ATTR_REVEAL: :frag (t)
 - niemutowalne (dostępne warianty mutowalne)
-#+ATTR_REVEAL: :frag t
 - ale...
-#+ATTR_REVEAL: :frag t
-#+BEGIN_SRC kotlin
-/**
- * Returns a list containing all elements of the original collection and then the given [element].
- */
-public operator fun <T> Collection<T>.plus(element: T): List<T> {
-    val result = ArrayList<T>(size + 1)
-    result.addAll(this)
-    result.add(element)
-    return result
-}
-#+END_SRC
-#+ATTR_REVEAL: :frag t
+  #+BEGIN_SRC kotlin
+  /**
+   * Returns a list containing all elements of the original collection and then the given [element].
+   */
+  public operator fun <T> Collection<T>.plus(element: T): List<T> {
+      val result = ArrayList<T>(size + 1)
+      result.addAll(this)
+      result.add(element)
+      return result
+  }
+  #+END_SRC
 - kompatybilne z interfejsami kolekcji z Javy
 
 ** Let, run, with, apply
@@ -279,12 +282,10 @@ Problemy z mockito - dlaczego potrzebna nakładka.
 
 * Kotlin 1.1
 
-#+ATTR_REVEAL: :frag t
+#+ATTR_REVEAL: :frag (t)
 - będzie można dziedziczyć z data klas, uff
-#+ATTR_REVEAL: :frag t
 - =myService::aMethod=, (aktualnie wspierane jest jedynie odniesienie do funkcji,
   np. =String::length=)
-#+ATTR_REVEAL: :frag t
 - async/await
 - aliasy
 - wsparcie dla Javy 8 (streamy, domyślne metody z intefejsów)
