@@ -203,7 +203,7 @@ TODO: przykład
 #+ATTR_REVEAL: :frag t
 - niemutowalne (dostępne warianty mutowalne)
 #+ATTR_REVEAL: :frag t
-- niepersystentne
+- ale...
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
 /**
