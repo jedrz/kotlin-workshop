@@ -148,7 +148,6 @@ fun addMaybe1(value: Any?) =
   val (fn, ln) = developer
   #+END_SRC
 - (ale np. na listach nie działa)
-- nie ma pattern matchingu
 
 ** Nazwane argumenty
 
@@ -196,7 +195,16 @@ Nie bardzo...
 ** when
 
 #+ATTR_REVEAL: :frag (t)
-- zamiast instrukcji =switch=
+- =switch= na sterydach
+- ochroni przed nieobsłużoną wartością w =Enum=-ie
+- nie wspiera pattern matchingu
+  #+BEGIN_SRC kotlin
+    when (x) {
+        0, 1 -> print("x == 0 or x == 1")
+        in 3..5 -> print("3 <= x <= 5")
+        else -> print("otherwise")
+    }
+  #+END_SRC
 
 ** Funkcje rozszerzające
 
