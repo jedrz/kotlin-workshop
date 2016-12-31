@@ -199,10 +199,20 @@ Nie bardzo...
 
 ** Etykiety
 
-- wyskakiwanie z lambdy
-- this z etykietą (that)
-
-TODO: przykład
+#+ATTR_REVEAL: :frag t
+- wyskakiwanie z lambd
+  #+BEGIN_SRC kotlin
+    list.map { value ->
+        repeat(10) {
+            val result = tryToDoSth(value)
+            if (result != null) {
+                return@map result
+            }
+        }
+        null
+    }
+  #+END_SRC
+- odwołania do zewnętrznych =this=
 
 ** Kolekcje
 
