@@ -15,5 +15,7 @@ class DataClassTest {
         whenever(dev.firstName).thenReturn("name")
 
         assertThat(dev.firstName).isEqualTo("name")
+
+        wit
     }
 }

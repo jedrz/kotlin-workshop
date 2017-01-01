@@ -256,7 +256,26 @@ Nie bardzo...
 
 ** let, run, with, apply
 
-- głównie do pracy z nullami i setterami
+głównie do pracy z nullami i setterami
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC kotlin
+  @Bean
+  open fun accessTokenConverter(): JwtAccessTokenConverter {
+      return JwtAccessTokenConverter().apply {
+          setSigningKey("123")
+      }
+  }
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+BEGIN_SRC kotlin
+value?.run {
+    this + 1
+}
+#+END_SRC
+#+REVEAL_HTML: </div>
 
 ** Generyki
 
