@@ -115,7 +115,7 @@ val id: Long = user?.id ?: throw UserNotFoundException()
 val id: Long = user?.id ?: return log.warn("User: $name not found")
 #+END_SRC
 
-** Inteligentne rzutowanie
+** Sprytne rzutowanie
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
@@ -146,7 +146,7 @@ fun addMaybe1(value: Any?) =
   }
 #+END_SRC
 
-** Data klasy cd.
+#+REVEAL: split
 
 #+BEGIN_SRC kotlin
   data class Developer(val firstName: String,
