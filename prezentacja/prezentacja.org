@@ -92,7 +92,14 @@ TODO
 
 ** Elvis
 
+#+REVEAL_HTML: <code style="font-size: 250%">?:</code>
+
 #+ATTR_REVEAL: :frag t
+#+ATTR_HTML: :width 250px
+[[./img/elvis.jpg]]
+
+#+REVEAL: split
+
 #+BEGIN_SRC kotlin
 fun findUser(name: String): User?
 
