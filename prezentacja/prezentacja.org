@@ -32,6 +32,12 @@ Wydana 15 lutego 2016.
 - funkcyjny
 - uruchamiany na JVM
 
+** Firmy używające Kotlina
+
+TouK hehe
+
+TODO
+
 * Język
 ** Wyrażenia (wywalić?)
 
@@ -198,13 +204,14 @@ Nie bardzo...
 - =switch= na sterydach
 - ochroni przed nieobsłużoną wartością w =Enum=-ie
 - nie wspiera pattern matchingu
-  #+BEGIN_SRC kotlin
-    when (x) {
-        0, 1 -> print("x == 0 or x == 1")
-        in 3..5 -> print("3 <= x <= 5")
-        else -> print("otherwise")
-    }
-  #+END_SRC
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+  when (x) {
+      0, 1 -> print("x == 0 or x == 1")
+      in 3..5 -> print("3 <= x <= 5")
+      else -> print("otherwise")
+  }
+#+END_SRC
 
 ** Funkcje rozszerzające
 
@@ -225,15 +232,13 @@ Nie bardzo...
 - niemutowalne (dostępne warianty mutowalne)
 - ale...
   #+BEGIN_SRC kotlin
-  /**
-   * Returns a list containing all elements of the original collection and then the given [element].
-   */
-  public operator fun <T> Collection<T>.plus(element: T): List<T> {
-      val result = ArrayList<T>(size + 1)
-      result.addAll(this)
-      result.add(element)
-      return result
-  }
+    public operator
+    fun <T> Collection<T>.plus(element: T): List<T> {
+        val result = ArrayList<T>(size + 1)
+        result.addAll(this)
+        result.add(element)
+        return result
+    }
   #+END_SRC
 - kompatybilne z interfejsami kolekcji z Javy
 
@@ -258,7 +263,7 @@ Nie bardzo...
 
 głównie do pracy z nullami i setterami
 
-#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
   @Bean
   open fun accessTokenConverter(): JwtAccessTokenConverter {
@@ -267,15 +272,21 @@ głównie do pracy z nullami i setterami
       }
   }
 #+END_SRC
-#+REVEAL_HTML: </div>
 
-#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-value?.run {
-    this + 1
+val transformedValue = value?.let {
+    transformValue(it)
 }
 #+END_SRC
-#+REVEAL_HTML: </div>
+
+#+REVEAL: split
+
+#+ATTR_REVEAL: :frag t
+#+REVEAL_HTML: <p><code>run</code> identyczne jak <code>let</code>, ale z <code><span style="color: red">this</span></code> zamiast <code>it</code> w ciele lambdy</p>
+
+#+ATTR_REVEAL: :frag t
+z kolei =with= jest wariacją =run=
 
 ** Generyki
 
@@ -318,7 +329,10 @@ Open classy
 
 ConfigurationProperties - słabe.
 
-** Final/open
+** final
+
+Domyślnie klasy i metody są =public= i =final=.
+
 ** Jackson
 
 Not null i wejdzie null to wyleci.
