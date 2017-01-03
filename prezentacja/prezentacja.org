@@ -297,7 +297,32 @@ z kolei =with= jest wariacją =run=
 
 ** Generyki
 
-TODO lub wywalić
+#+ATTR_REVEAL: :frag (t)
+- reklamowane jako prostsze
+- zamiast =? extends= i =? super= - =out= i =in=
+- ma odpowiadać producentowi i konsumentowi
+- oczywiście naprawione tablice z Javy
+
+*** Reified type parameters
+
+#+ATTR_REVEAL: :frag t
+pozwala na odwołanie się do klasy generycznego typu
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+val myServiceMock = Mockito.mock(MyServiceMock::class.java)
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+val myServiceMock: MyService = mock()
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+inline fun <reified T : Any> mock(): T =
+         Mockito.mock(T::class.java)!!
+#+END_SRC
 
 ** Adnotacje
 
