@@ -266,9 +266,9 @@ Nie bardzo...
   #+END_SRC
 - odwołania do zewnętrznych =this=
 
-** let, run, with, apply
+** StandardKt
 
-głównie do pracy z nullami i setterami
+a w nim funkcje =let=, =apply=, =with=, =run= - głównie do pracy z nullami i setterami
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
@@ -289,11 +289,38 @@ val transformedValue = value?.let {
 
 #+REVEAL: split
 
-#+ATTR_REVEAL: :frag t
-#+REVEAL_HTML: <p><code>run</code> identyczne jak <code>let</code>, ale z <code><span style="color: red">this</span></code> zamiast <code>it</code> w ciele lambdy</p>
+ale i lenistwa
 
-#+ATTR_REVEAL: :frag t
-z kolei =with= jest wariacją =run=
+#+BEGIN_SRC kotlin
+userRepository.findByEmailOrThrow(email).let {
+    doSthWithUser(it)
+ }
+#+END_SRC
+
+zamiast
+#+BEGIN_SRC kotlin
+val user = userRepository.findByEmailOrThrow(email)
+doSomethingWithUser(user)
+#+END_SRC
+
+
+** PreconditionsKt
+
+#+BEGIN_SRC kotlin
+fun require(value: Boolean): Unit
+fun require(value: Boolean, lazyMessage: () -> Any): Unit
+
+fun <T:Any> requireNotNull(value: T?): T
+fun <T:Any> requireNotNull(value: T?, lazyMessage: () -> Any): T
+
+fun check(value: Boolean): Unit
+fun check(value: Boolean, lazyMessage: () -> Any): Unit
+
+fun <T:Any> checkNotNull(value: T?): T
+fun <T:Any> checkNotNull(value: T?, lazyMessage: () -> Any): T
+
+fun error(message: Any): Nothing
+#+END_SRC
 
 ** Generyki
 
@@ -346,6 +373,8 @@ TODO
 Przykład.
 
 Może Box(x) ?
+
+Nie zapomnieć o T!
 
 ** Fluent buildery
 
