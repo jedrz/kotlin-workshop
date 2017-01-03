@@ -355,15 +355,31 @@ Problemy z mockito - dlaczego potrzebna nakładka.
 * Kotlin 1.1
 
 #+ATTR_REVEAL: :frag (t)
-- będzie można dziedziczyć z data klas, uff
+- będzie można *dziedziczyć* z data klas, uff
 - =myService::aMethod=, (aktualnie wspierane jest jedynie odniesienie do funkcji,
   np. =String::length=)
 - async/await
 - aliasy
-- wsparcie dla Javy 8 (streamy, domyślne metody z intefejsów)
+- wsparcie dla Javy *8* (streamy, domyślne metody z interfejsów)
 
 * Lokowanie produktu
 
-Emacs + org-mode
+#+REVEAL_HTML: <div class="fragment">
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+ATTR_HTML: :width 200px
+[[./img/emacs.png]]
+
+Emacs
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+ATTR_HTML: :width 200px
+[[./img/org.png]]
+
+Org mode
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: </div>
 
 * Dziękuję!
