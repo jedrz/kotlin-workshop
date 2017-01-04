@@ -385,6 +385,18 @@ moduł jackson-kotlin
 
 ** Spring 5.0
 
+#+ATTR_REVEAL: :frag (t)
+- Spring będzie rozumiał, czy typ może być nullem
+  - =@Autowired=
+  - =@RequestParam= i =@Header=
+- =RestTemplate= wykorzysta reified...
+  #+BEGIN_SRC java
+  restTemplate.exchange(... new ParameterizedTypeReference<List<Foo>>() { })
+  #+END_SRC
+  #+BEGIN_SRC kotlin
+  val result: List<Foo> = restTemplate.getForObject(url)
+  #+END_SRC
+
 * Testowanie
 
 Można fun `should cos`() {}
