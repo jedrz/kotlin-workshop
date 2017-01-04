@@ -365,23 +365,6 @@ TODO lub wywalić
 
 TODO
 
-* W praktyce
-** Null safety
-
-TODO
-
-Przykład.
-
-Może Box(x) ?
-
-Nie zapomnieć o T!
-
-** Fluent buildery
-
-TODO
-
-Przykład
-
 * Spring
 
 Jak pomaga spring 4.3 - musielibyśmy pisąc @Autowired constructor (...)
@@ -400,11 +383,30 @@ Not null i wejdzie null to wyleci.
 
 moduł jackson-kotlin
 
+** Spring 5.0
+
 * Testowanie
 
 Można fun `should cos`() {}
 Problemy z finalami.
 Problemy z mockito - dlaczego potrzebna nakładka.
+
+* W praktyce
+** Null safety
+
+TODO
+
+Przykład.
+
+Może Box(x) ?
+
+Nie zapomnieć o T!
+
+** Fluent buildery
+
+TODO
+
+Przykład
 
 * Kotlin 1.1
 
