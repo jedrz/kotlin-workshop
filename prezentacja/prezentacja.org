@@ -447,6 +447,13 @@ Radzi sobie klasami bez domyślnego konstruktora
 
 * Testowanie
 
+** Czego używamy?
+
+#+ATTR_REVEAL: :frag t
+- Junit 4.12
+- AssertJ 3.x
+- mockito-kotlin
+
 Można fun `should cos`() {}
 Problemy z finalami.
 Problemy z mockito - dlaczego potrzebna nakładka.
