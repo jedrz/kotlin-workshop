@@ -32,12 +32,6 @@ Wydana 15 lutego 2016.
 - funkcyjny
 - uruchamiany na JVM
 
-** Firmy używające Kotlina
-
-TouK hehe
-
-TODO
-
 * Język
 ** Wyrażenia (wywalić?)
 
@@ -303,7 +297,6 @@ val user = userRepository.findByEmailOrThrow(email)
 doSomethingWithUser(user)
 #+END_SRC
 
-
 ** PreconditionsKt
 
 #+BEGIN_SRC kotlin
@@ -355,7 +348,16 @@ inline fun <reified T : Any> mock(): T =
 
 TODO lub wywalić
 
+#+ATTR_REVEAL: :frag (t)
 - dziwna składnia adnotacji
+  #+BEGIN_SRC kotlin
+  @RequestMapping(method = arrayOf(RequestMethod.GET))
+  #+END_SRC
+- a zagnieżdżonych jeszcze bardziej
+#+BEGIN_SRC kotlin
+  @ApiResponses(ApiResponse(code = 400, message = "Bad request"),
+                ApiResponse(code = 409, message = "Conflict"))
+#+END_SRC
 - adnotacje na property
 
 ** Oraz
@@ -366,22 +368,68 @@ TODO lub wywalić
 TODO
 
 * Spring
-
-Jak pomaga spring 4.3 - musielibyśmy pisąc @Autowired constructor (...)
-
-Open classy
-
-ConfigurationProperties - słabe.
-
 ** final
 
-Domyślnie klasy i metody są =public= i =final=.
+#+ATTR_REVEAL: :frag t
+Domyślnie klasy i metody posiadają modyfikatory =public= i =final=. Co sprawia
+pewne problemy...
+
+#+ATTR_REVEAL: :frag t
+Właściwie dopóki Spring nie potrzebuje proxy (np. przez użycie =@Transactional=),
+nie ma problemu. Wtedy musimy otworzyć klasę i metody poprzez =open=
+
+*** A czy muszę o tym pamiętać?
+
+#+ATTR_REVEAL: :frag t
+Do kotlina 1.0.5 owszem
+
+#+ATTR_REVEAL: :frag t
+Od wersji 1.0.6 twórcy złamali swoje założenie i wydali plugin =kotlin-allopen=
+
+#+ATTR_REVEAL: :frag (t)
+- otwiera wszystko oznaczone wybranymi adnotacjami
+- dostępna także konfiguracja z adnotacjami springowymi (=kotlin-spring=)
+- a nawet kolejny plugin =no-arg=, która dodaje bezargumentowy konstruktor
+
+** Spring 4.3
+
+#+ATTR_REVEAL: :frag t
+Trochę upraszcza
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+@Service
+class MyService(private val otherService: OtherService) {
+    ...
+}
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+zamiast
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+@Service
+class MyService @Autowired constructor(
+        private val otherService: OtherService
+) {
+    ...
+}
+#+END_SRC
+
+** Configuration properties
+
+#+ATTR_REVEAL: :frag t
+W kotlinie wygląda brzydko
+
+TODO - wkleić przykład z SocialConfiguration
 
 ** Jackson
 
-Not null i wejdzie null to wyleci.
+#+ATTR_REVEAL: :frag t
+Nie obędzie się bez dodatkowego modułu - =jackson-module-kotlin=
 
-moduł jackson-kotlin
+#+ATTR_REVEAL: :frag t
+Radzi sobie klasami bez domyślnego konstruktora
 
 ** Spring 5.0
 
@@ -419,6 +467,10 @@ Nie zapomnieć o T!
 TODO
 
 Przykład
+
+* Wsparcie narzędzi
+
+Intellij automatycznie konwertuje wklejony kod Javy do Kotlina.
 
 * Kotlin 1.1
 
