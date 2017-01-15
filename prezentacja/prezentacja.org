@@ -475,9 +475,46 @@ Radzi sobie klasami bez domyślnego konstruktora
 - AssertJ 3.x
 - mockito-kotlin
 
-Można fun `should cos`() {}
-Problemy z finalami.
-Problemy z mockito - dlaczego potrzebna nakładka.
+#+ATTR_REVEAL: :frag t
+Struktura testów nie różni się znacząco od tych z Javy. Miłym dodatkiem jest
+jednak nazewnictwo
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+@Test
+fun `should add numbers`() {
+    assertThat(1 + 1).isEqualTo(2)
+}
+#+END_SRC
+
+** final
+
+Problem analogiczny jak przy Springu - trzeba otworzyć klasę, użyć pluginu
+=kotlin-allopen=, bądź ...
+
+#+ATTR_REVEAL: :frag t
+... otworzyć klasę tylko w teście
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+import de.jodamob.kotlin.testrunner.KotlinTestRunner
+
+@RunWith(KotlinTestRunner::class)
+class ATest {
+}
+#+END_SRC
+
+** mockito
+
+Czyste sprawia problemy:
+- =when= jest słowem kluczowym
+  #+BEGIN_SRC kotlin
+  `when`(dev.firstName).thenReturn("name")
+  #+END_SRC
+- matchery zwracają =null=
+
+#+ATTR_REVEAL: :frag t
+Z pomocą przychodzi nakładka *mockito-kotlin*
 
 * W praktyce
 ** Null safety
