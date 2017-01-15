@@ -374,10 +374,20 @@ inline fun <reified T : Any> mock(): T =
 
 ** Oraz
 
+- mapy, flatmapy, itd.
+- singletony
+- lateinit
+- inline
+- przeciążanie operatorów
 - delegacja
 - delegacja "pól" - wbudowane =lazy=, =observable=
 
-TODO
+* Współpraca z Javą
+
+- brak rozróżnienia na typy mogące być =null=-em*
+- operacje wyłącznie na kolekcjach kotlinowych
+- gettery i settery traktowane jako property
+- dopasowywanie lambd do interfejsów funkcyjnych
 
 * Spring
 ** final
@@ -486,10 +496,6 @@ TODO
 
 Przykład
 
-* Wsparcie narzędzi
-
-Intellij automatycznie konwertuje wklejony kod Javy do Kotlina.
-
 * Kotlin 1.1
 
 - będzie można *dziedziczyć* z data klas, uff
@@ -505,7 +511,7 @@ Intellij automatycznie konwertuje wklejony kod Javy do Kotlina.
 Jak oceniam Kotlina?
 
 #+ATTR_REVEAL: :frag t
-Przyjemniejsza Java, prostsza Scala
+#+REVEAL_HTML: <p class="fragment"><span style="color:blue">Przyjemniejsza</span> Java, prostsza Scala</p>
 
 * Lokowanie produktu
 
