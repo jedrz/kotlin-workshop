@@ -34,7 +34,7 @@ Wydana 15 lutego 2016.
 - uruchamiany na JVM
 
 * Język
-** Wyrażenia (wywalić?)
+** Wyrażenia
 
 #+ATTR_REVEAL: :frag (t)
 - po javowemu
@@ -442,7 +442,15 @@ class MyService @Autowired constructor(
 #+ATTR_REVEAL: :frag t
 W kotlinie wygląda brzydko
 
-TODO - wkleić przykład z SocialConfiguration
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+@Configuration
+@ConfigurationProperties("spring.social.google")
+open class GoogleConfiguration {
+    var validity: Duration = Duration.ofDays(3)
+    var clientIds: MutableList<String> = mutableListOf()
+}
+#+END_SRC
 
 ** Jackson
 
