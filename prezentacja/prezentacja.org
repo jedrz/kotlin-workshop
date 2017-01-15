@@ -30,6 +30,7 @@ Wydana 15 lutego 2016.
 
 - obiektowy
 - funkcyjny
+- statycznie typowany
 - uruchamiany na JVM
 
 * Język
@@ -98,7 +99,7 @@ Wydana 15 lutego 2016.
 fun findUser(name: String): User?
 
 val name = "Elvis"
-val user = findUser(name)
+val user: User? = findUser(name)
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
@@ -113,8 +114,9 @@ val id: Long = user?.id ?: return log.warn("User: $name not found")
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-fun addMaybe1(value: Any?) =
-        if (value is Int) value.toLong() + 1 else value
+  if (obj is String && obj.length > 0) {
+      print(obj.length)
+  }
 #+END_SRC
 
 ** Data klasy
@@ -199,12 +201,17 @@ fun addMaybe1(value: Any?) =
 
 #+ATTR_REVEAL: :frag t
 Nie bardzo...
+
+*** Świeży IntelliJ i Java
+
+TODO screenshot
+
 ** when
 
-#+ATTR_REVEAL: :frag (t)
 - =switch= na sterydach
 - ochroni przed nieobsłużoną wartością w =Enum=-ie
 - nie wspiera pattern matchingu
+
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
   when (x) {
@@ -243,9 +250,21 @@ Nie bardzo...
   #+END_SRC
 - kompatybilne z interfejsami kolekcji z Javy
 
-** Etykiety
+** Scope
 
 #+ATTR_REVEAL: :frag t
+| Java      | Kotlin    |
+|-----------+-----------|
+| =private=   | =private=   |
+| =protected= | =protected= |
+| =package=   | -         |
+| =public=    | =public=    |
+
+#+ATTR_REVEAL: :frag t
+Nowy scope - *internal*
+
+** Etykiety
+
 - wyskakiwanie z lambd
   #+BEGIN_SRC kotlin
     list.map { value ->
@@ -260,7 +279,7 @@ Nie bardzo...
   #+END_SRC
 - odwołania do zewnętrznych =this=
 
-** StandardKt
+** Standard.kt
 
 a w nim funkcje =let=, =apply=, =with=, =run= - głównie do pracy z nullami i setterami
 
@@ -276,28 +295,20 @@ a w nim funkcje =let=, =apply=, =with=, =run= - głównie do pracy z nullami i s
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-val transformedValue = value?.let {
-    transformValue(it)
+  userRepository.findByEmail(email)?.let {
+      doSthWithUser(it)
+  }
+#+END_SRC
+
+#+ATTR_REVEAL: :frag t
+#+BEGIN_SRC kotlin
+user.run {
+    assertThat(firstName).isEqualTo("Jan")
+    assertThat(lastName).isEqualTo("Kowalski")
 }
 #+END_SRC
 
-#+REVEAL: split
-
-ale i lenistwa
-
-#+BEGIN_SRC kotlin
-userRepository.findByEmailOrThrow(email).let {
-    doSthWithUser(it)
- }
-#+END_SRC
-
-zamiast
-#+BEGIN_SRC kotlin
-val user = userRepository.findByEmailOrThrow(email)
-doSomethingWithUser(user)
-#+END_SRC
-
-** PreconditionsKt
+** Preconditions.kt
 
 #+BEGIN_SRC kotlin
 fun require(value: Boolean): Unit
@@ -317,7 +328,6 @@ fun error(message: Any): Nothing
 
 ** Generyki
 
-#+ATTR_REVEAL: :frag (t)
 - reklamowane jako prostsze
 - zamiast =? extends= i =? super= - =out= i =in=
 - ma odpowiadać producentowi i konsumentowi
@@ -346,19 +356,21 @@ inline fun <reified T : Any> mock(): T =
 
 ** Adnotacje
 
-TODO lub wywalić
-
 #+ATTR_REVEAL: :frag (t)
 - dziwna składnia adnotacji
   #+BEGIN_SRC kotlin
   @RequestMapping(method = arrayOf(RequestMethod.GET))
   #+END_SRC
 - a zagnieżdżonych jeszcze bardziej
-#+BEGIN_SRC kotlin
-  @ApiResponses(ApiResponse(code = 400, message = "Bad request"),
-                ApiResponse(code = 409, message = "Conflict"))
-#+END_SRC
-- adnotacje na property
+  #+BEGIN_SRC kotlin
+    @ApiResponses(ApiResponse(code = 400, message = "Bad request"),
+                  ApiResponse(code = 409, message = "Conflict"))
+  #+END_SRC
+- adnotacje na property - należy określić czy adnotacja ma dotyczyć pola,
+  gettera, bądź settera
+  #+BEGIN_SRC kotlin
+    class Token(@get:JsonIgnore val value: String)
+  #+END_SRC
 
 ** Oraz
 
@@ -371,8 +383,7 @@ TODO
 ** final
 
 #+ATTR_REVEAL: :frag t
-Domyślnie klasy i metody posiadają modyfikatory =public= i =final=. Co sprawia
-pewne problemy...
+Domyślnie klasy i metody posiadają modyfikatory =public= i =final=
 
 #+ATTR_REVEAL: :frag t
 Właściwie dopóki Spring nie potrzebuje proxy (np. przez użycie =@Transactional=),
@@ -436,7 +447,7 @@ Radzi sobie klasami bez domyślnego konstruktora
 #+ATTR_REVEAL: :frag (t)
 - Spring będzie rozumiał, czy typ może być nullem
   - =@Autowired=
-  - =@RequestParam= i =@Header=
+  - =@RequestParam= i =@HeaderParam=
 - =RestTemplate= wykorzysta reified...
   #+BEGIN_SRC java
   restTemplate.exchange(... new ParameterizedTypeReference<List<Foo>>() { })
@@ -481,13 +492,20 @@ Intellij automatycznie konwertuje wklejony kod Javy do Kotlina.
 
 * Kotlin 1.1
 
-#+ATTR_REVEAL: :frag (t)
 - będzie można *dziedziczyć* z data klas, uff
 - =myService::aMethod=, (aktualnie wspierane jest jedynie odniesienie do funkcji,
   np. =String::length=)
 - async/await
 - aliasy
 - wsparcie dla Javy *8* (streamy, domyślne metody z interfejsów)
+
+* Podsumowanie
+
+#+ATTR_REVEAL: :frag t
+Jak oceniam Kotlina?
+
+#+ATTR_REVEAL: :frag t
+Przyjemniejsza Java, prostsza Scala
 
 * Lokowanie produktu
 
