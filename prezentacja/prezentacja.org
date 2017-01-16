@@ -527,11 +527,6 @@ Z pomocą przychodzi nakładka *mockito-kotlin*
 * W praktyce
 ** Null safety
 ** Fluent buildery
-
-TODO
-
-Przykład
-
 * Kotlin 1.1
 
 - będzie można *dziedziczyć* z data klas, uff
