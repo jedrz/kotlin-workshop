@@ -1,5 +1,6 @@
 .idea
 /kotlin-demo/build
+/kotlin-demo/out
 /kotlin-demo/.gradle
 notatki.org
 prezentacja.html
