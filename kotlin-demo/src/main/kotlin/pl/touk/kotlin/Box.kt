@@ -1,4 +1,4 @@
 package pl.touk.kotlin
 
 
-class Box(private val value: Int)
+class Box(val value: Int)
