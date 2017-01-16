@@ -526,15 +526,6 @@ Z pomocą przychodzi nakładka *mockito-kotlin*
 
 * W praktyce
 ** Null safety
-
-TODO
-
-Przykład.
-
-Może Box(x) ?
-
-Nie zapomnieć o T!
-
 ** Fluent buildery
 
 TODO
