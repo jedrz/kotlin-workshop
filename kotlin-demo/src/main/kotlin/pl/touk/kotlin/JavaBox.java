@@ -1,13 +1,13 @@
 package pl.touk.kotlin;
 
 public class JavaBox {
-    private final Integer value;
+    private final String value;
 
-    public JavaBox(Integer value) {
+    public JavaBox(String value) {
         this.value = value;
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 }
