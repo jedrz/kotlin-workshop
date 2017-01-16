@@ -47,7 +47,7 @@ Wydana 15 lutego 2016.
         }
     }
   #+END_SRC
-- Ale if zwraca?
+- z wyrażeniami
   #+BEGIN_SRC kotlin
     fun newOrNull(value: String?): Msisdn {
         return if (value != null) {
