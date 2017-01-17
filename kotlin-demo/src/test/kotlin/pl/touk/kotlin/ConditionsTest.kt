@@ -6,7 +6,7 @@ class ConditionsTest {
 
     @Test
     fun `should pprint`() {
-        val conditions = conditions {
+        val conditions: Conditions = conditions {
 
             condition(Status.ORDER) {
                 present(Attribute.REGISTERED)
