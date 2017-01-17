@@ -8,23 +8,23 @@ class ConditionsTest {
     fun `should pprint`() {
         val conditions = conditions {
 
-            condition("order") {
-                present("registered")
-                absent("ordered")
-                absent("creditCard")
+            condition(Status.ORDER) {
+                present(Attribute.REGISTERED)
+                absent(Attribute.ORDERED)
+                absent(Attribute.CREDIT_CARD)
             }
 
-            condition("payment") {
-                present("registered")
-                present("ordered")
-                absent("creditCard")
+            condition(Status.PAYMENT) {
+                present(Attribute.REGISTERED)
+                present(Attribute.ORDERED)
+                absent(Attribute.CREDIT_CARD)
             }
 
-            condition("order again") {
-                absent("ordered")
+            condition(Status.ORDER_AGAIN) {
+                absent(Attribute.ORDERED)
                 anyOf {
-                    present("registered")
-                    present("credit card")
+                    present(Attribute.REGISTERED)
+                    present(Attribute.CREDIT_CARD)
                 }
             }
         }

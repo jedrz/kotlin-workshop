@@ -1,6 +1,20 @@
 package pl.touk.kotlin
 
 
+enum class Status {
+    ORDER,
+    PAYMENT,
+    ORDER_AGAIN
+}
+
+
+enum class Attribute {
+    REGISTERED,
+    ORDERED,
+    CREDIT_CARD
+}
+
+
 class Conditions(private val conditions: Collection<Condition>) {
     override fun toString(): String {
         return pprint(conditions)
@@ -18,10 +32,10 @@ fun conditions(init: ConditionsBuilder.() -> Unit): Conditions {
 class ConditionsBuilder {
     private val conditions: MutableList<Condition> = mutableListOf()
 
-    fun condition(checkpoint: String, init: RequirementsBuilder.() -> Unit) {
+    fun condition(status: Status, init: RequirementsBuilder.() -> Unit) {
         val requirementsBuilder = RequirementsBuilder()
         requirementsBuilder.init()
-        conditions.add(requirementsBuilder.buildCondition(checkpoint))
+        conditions.add(requirementsBuilder.buildCondition(status))
     }
 
     internal fun build() = Conditions(conditions)
@@ -29,11 +43,11 @@ class ConditionsBuilder {
 
 
 class Condition(
-        val checkpoint: String,
+        val status: Status,
         private val requirements: Collection<Requirement>
 ) {
     override fun toString(): String {
-        return "Condition(checkpoint='$checkpoint', requirements=${pprint(requirements, elementPrefix = "\t")})"
+        return "Condition(status='$status', requirements=${pprint(requirements, elementPrefix = "\t")})"
     }
 }
 
@@ -41,12 +55,12 @@ class Condition(
 class RequirementsBuilder {
     private val requirements: MutableList<Requirement> = mutableListOf()
 
-    fun present(name: String) {
-        requirements.add(AttributeRequirement(name, present = true))
+    fun present(attribute: Attribute) {
+        requirements.add(AttributeRequirement(attribute, present = true))
     }
 
-    fun absent(name: String) {
-        requirements.add(AttributeRequirement(name, present = false))
+    fun absent(attribute: Attribute) {
+        requirements.add(AttributeRequirement(attribute, present = false))
     }
 
     fun anyOf(init: RequirementsBuilder.() -> Unit) {
@@ -55,7 +69,7 @@ class RequirementsBuilder {
         requirements.add(anyOfBuilder.buildAnyOfRequirement())
     }
 
-    internal fun buildCondition(checkpoint: String) = Condition(checkpoint, requirements)
+    internal fun buildCondition(status: Status) = Condition(status, requirements)
 
     internal fun buildAnyOfRequirement() = AnyOfRequirement(requirements)
 }
@@ -64,9 +78,9 @@ class RequirementsBuilder {
 interface Requirement
 
 
-class AttributeRequirement(private val name: String, private val present: Boolean) : Requirement {
+class AttributeRequirement(private val attribute: Attribute, private val present: Boolean) : Requirement {
     override fun toString(): String {
-        return "AttributeRequirement(name='$name', present=$present)"
+        return "AttributeRequirement(attribute=$attribute, present=$present)"
     }
 }
 
