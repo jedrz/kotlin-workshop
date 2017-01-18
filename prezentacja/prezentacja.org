@@ -302,14 +302,6 @@ a w nim funkcje =let=, =apply=, =with=, =run= - głównie do pracy z nullami i s
   }
 #+END_SRC
 
-#+ATTR_REVEAL: :frag t
-#+BEGIN_SRC kotlin
-user.run {
-    assertThat(firstName).isEqualTo("Jan")
-    assertThat(lastName).isEqualTo("Kowalski")
-}
-#+END_SRC
-
 ** Preconditions.kt
 
 #+BEGIN_SRC kotlin
