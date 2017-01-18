@@ -104,8 +104,7 @@ val user: User? = findUser(name)
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-val id: Long = user.id    // błąd kompilacji
-val maybeId: Long? = user?.id
+val id: Long = user?.id ?: -1
 val id: Long = user?.id ?: throw UserNotFoundException()
 val id: Long = user?.id ?: return log.warn("User: $name not found")
 #+END_SRC
@@ -152,6 +151,9 @@ val id: Long = user?.id ?: return log.warn("User: $name not found")
 
 #+ATTR_REVEAL: :frag (t)
 - niemutowalne (gdy nie używamy =var=) - modyfikacja przez =copy=
+  #+BEGIN_SRC kotlin
+  val ljd = developer.copy(login = "ljd")
+  #+END_SRC
 - destructuring bind
   #+BEGIN_SRC kotlin
   val (fn, ln) = developer
@@ -392,8 +394,7 @@ inline fun <reified T : Any> mock(): T =
 * Spring
 ** final
 
-#+ATTR_REVEAL: :frag t
-Domyślnie klasy i metody posiadają modyfikatory =public= i =final=
+#+REVEAL_HTML: <p class="fragment">Domyślnie klasy i metody posiadają modyfikatory <code>public</code> i <span style="color: red"><code>final</code></span>
 
 #+ATTR_REVEAL: :frag t
 Właściwie dopóki Spring nie potrzebuje proxy (np. przez użycie =@Transactional=),
@@ -407,7 +408,7 @@ Do kotlina 1.0.5 owszem
 #+ATTR_REVEAL: :frag t
 Od wersji 1.0.6 twórcy złamali swoje założenie i wydali plugin =kotlin-allopen=
 
-#+ATTR_REVEAL: :frag (t)
+#+ATTR_REVEAL: :frag t
 - otwiera wszystko oznaczone wybranymi adnotacjami
 - dostępna także konfiguracja z adnotacjami springowymi (=kotlin-spring=)
 - a nawet kolejny plugin =no-arg=, która dodaje bezargumentowy konstruktor
