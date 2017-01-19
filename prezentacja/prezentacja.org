@@ -344,8 +344,7 @@ verify(aMock).aMethod(any())
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-inline fun <reified T : Any> any() =
-        Mockito.any(T::class.java)
+inline fun <reified T : Any> any() = Mockito.any(T::class.java)
 #+END_SRC
 
 ** Adnotacje
@@ -373,6 +372,7 @@ inline fun <reified T : Any> any() =
 - sealed classes
 - lateinit
 - inline
+- infix
 - przeciążanie operatorów
 - delegacja
 - delegacja "pól" - wbudowane =lazy=, =observable=
