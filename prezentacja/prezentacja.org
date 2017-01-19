@@ -538,26 +538,6 @@ Jak oceniam Kotlina?
 #+ATTR_REVEAL: :frag t
 #+REVEAL_HTML: <p class="fragment"><span style="color:blue">Przyjemniejsza</span> Java, prostsza Scala</p>
 
-* Lokowanie produktu
-
-#+REVEAL_HTML: <div class="fragment">
-
-#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-#+ATTR_HTML: :width 200px
-[[./img/emacs.png]]
-
-Emacs
-#+REVEAL_HTML: </div>
-
-#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
-#+ATTR_HTML: :width 200px
-[[./img/org.png]]
-
-Org mode
-#+REVEAL_HTML: </div>
-
-#+REVEAL_HTML: </div>
-
 * Źródła
 
 - http://kotlinlang.org/docs/reference/
@@ -565,5 +545,6 @@ Org mode
 - https://blog.jetbrains.com/kotlin/2016/07/first-glimpse-of-kotlin-1-1-coroutines-type-aliases-and-more/
 - https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin
 - https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0
+
 
 * Dziękuję!
