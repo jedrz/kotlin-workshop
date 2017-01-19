@@ -158,7 +158,6 @@ val id: Long = user?.id ?: return log.warn("User: $name not found")
   #+BEGIN_SRC kotlin
   val (fn, ln) = developer
   #+END_SRC
-- (ale np. na listach nie działa)
 
 ** Nazwane argumenty
 
