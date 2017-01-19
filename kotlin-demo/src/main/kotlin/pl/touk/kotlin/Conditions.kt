@@ -17,7 +17,7 @@ enum class Attribute {
 
 class Conditions(private val conditions: Collection<Condition>) {
     override fun toString(): String {
-        return pprint(conditions)
+        return "Conditions(conditions=${pprint(conditions)})"
     }
 }
 
