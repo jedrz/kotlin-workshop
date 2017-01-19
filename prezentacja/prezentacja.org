@@ -370,6 +370,7 @@ inline fun <reified T : Any> mock(): T =
 
 - mapy, flatmapy, itd.
 - singletony
+- sealed classes
 - lateinit
 - inline
 - przeciążanie operatorów
