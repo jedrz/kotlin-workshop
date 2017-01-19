@@ -557,4 +557,12 @@ Org mode
 
 #+REVEAL_HTML: </div>
 
+* Źródła
+
+- http://kotlinlang.org/docs/reference/
+- https://blog.jetbrains.com/kotlin/2016/12/kotlin-1-0-6-is-here/
+- https://blog.jetbrains.com/kotlin/2016/07/first-glimpse-of-kotlin-1-1-coroutines-type-aliases-and-more/
+- https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin
+- https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0
+
 * Dziękuję!
