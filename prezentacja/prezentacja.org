@@ -36,7 +36,6 @@ Wydana 15 lutego 2016.
 * Język
 ** Wyrażenia
 
-#+ATTR_REVEAL: :frag (t)
 - po javowemu
   #+BEGIN_SRC kotlin
     fun newOrNull(value: String?): Msisdn {
