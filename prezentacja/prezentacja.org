@@ -334,18 +334,18 @@ pozwala na odwołanie się do klasy generycznego typu
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-val myServiceMock = Mockito.mock(MyServiceMock::class.java)
+verify(aMock).aMethod(any(AParam::class.java))
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-val myServiceMock: MyService = mock()
+verify(aMock).aMethod(any())
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-inline fun <reified T : Any> mock(): T =
-         Mockito.mock(T::class.java)!!
+inline fun <reified T : Any> any() =
+        Mockito.any(T::class.java)
 #+END_SRC
 
 ** Adnotacje
