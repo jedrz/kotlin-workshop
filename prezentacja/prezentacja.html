@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title></title>
+<meta name="author" content="(Łukasz Jędrzejewski)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js-3.3.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js-3.3.0/css/theme/white.css" id="theme"/>
+
+<link rel="stylesheet" href="./highlight/styles/vs.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js-3.3.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-orga1e143a">
+<h2 id="orga1e143a">Kotlin na backendzie</h2>
+<p>
+Łukasz Jędrzejewski
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4a741d4">
+<h2 id="org4a741d4">Plan</h2>
+<ul>
+<li>język</li>
+<li>Spring</li>
+<li>testowanie</li>
+<li>Kotlin 1.1</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2694a74">
+<h2 id="org2694a74">Kotlin?</h2>
+
+<div class="figure">
+<p><object type="image/svg+xml" data="./img/kotlin.svg" class="org-svg" width="200px">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-org471f8bd">
+<h3 id="org471f8bd">Wersja 1.0</h3>
+<p>
+Wydana 15 lutego 2016.
+</p>
+
+</section>
+<section id="slide-orgc9eedae">
+<h3 id="orgc9eedae">Cechy</h3>
+<ul>
+<li>obiektowy</li>
+<li>funkcyjny</li>
+<li>statycznie typowany</li>
+<li>uruchamiany na JVM</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgff153c9">
+<h2 id="orgff153c9">Język</h2>
+<div class="outline-text-2" id="text-orgff153c9">
+</div></section>
+<section id="slide-org93d330f">
+<h3 id="org93d330f">Wyrażenia</h3>
+<ul>
+<li><p>
+po javowemu
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >fun newOrNull(value: String?): Msisdn {
+    if (value != null) {
+        return Msisdn(value)
+    } else {
+        return null
+    }
+}
+</code></pre>
+</div></li>
+<li><p>
+z wyrażeniami
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >fun newOrNull(value: String?): Msisdn {
+    return if (value != null) {
+        Msisdn(value)
+    } else {
+        null
+    }
+}
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-orgb98dd54">
+<h3 id="orgb98dd54">Jawna obsługa null</h3>
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >val a: String? = null
+val b: String? = "b"
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >b.length    // błąd kompilacji
+b?.length   // ok
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >val c: String = null    // błąd kompilacji
+</code></pre>
+</div>
+
+<ul class="fragment">
+<li>funkcje także są chronione</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >fun add1(value: Int) = value + 1
+
+add1(null)    // błąd kompilacji
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org296ed9e">
+<h3 id="org296ed9e">Elvis</h3>
+<code style="font-size: 250%">?:</code>
+
+
+<div class="figure">
+<p><img src="./img/elvis.jpg" alt="elvis.jpg" class="fragment" width="250px" />
+</p>
+</div>
+
+</section>
+<section >
+
+<div class="org-src-container">
+
+<pre><code class="kotlin" >val name = "Elvis"
+val user: User? = userRepository.findByName(name)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >val id: Long = user?.id ?: userRepository.newIdentity()
+val id: Long = user?.id ?: throw UserNotFoundException()
+val id: Long = user?.id ?: return log.warn("User: $name not found")
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1dc6217">
+<h3 id="org1dc6217">Sprytne rzutowanie</h3>
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >if (obj is String &amp;&amp; obj.length &gt; 0) {
+    print(obj.length)
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org6268527">
+<h3 id="org6268527">Data klasy</h3>
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >data class Developer(val firstName: String,
+                     val lastName: String,
+                     val login: String)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="java" >@AllArgsConstructor
+@Getter
+@ToString
+@EqualsAndHashCode
+@Wither
+public final class Developer {
+    private final String firstName;
+    private final String lastName;
+    private final String login;
+}
+</code></pre>
+</div>
+
+</section>
+<section >
+
+<div class="org-src-container">
+
+<pre><code class="kotlin" >data class Developer(val firstName: String,
+                     val lastName: String,
+                     val login: String)
+</code></pre>
+</div>
+
+<ul>
+<li class="fragment"><p>
+niemutowalne (gdy nie używamy <code>var</code>) - modyfikacja przez <code>copy</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >val ljd = developer.copy(login = "ljd")
+</code></pre>
+</div></li>
+<li class="fragment"><p>
+destructuring bind
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >val (fn, ln) = developer
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-org5cafcaa">
+<h3 id="org5cafcaa">Nazwane argumenty</h3>
+<ul>
+<li>przy wywołaniu można nazwać argumenty</li>
+<li>dodatkowo nadać domyślne wartości</li>
+<li>wypada konieczność używania builderów</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >data class Developer(
+        val firstName: String,
+        val lastName: String,
+        val login: String = toukizedLogin(firstName, lastName))
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >Developer(firstName = "Łukasz", lastName = "Jędrzejewski")
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >Developer(firstName = "Jakub",
+          lastName = "Nowakowski",
+          login = "kn")
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org493a199">
+<h4 id="org493a199">A korzystając z biblioteki w Javie mogę tak napisać?</h4>
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >import org.springframework.security.core.userdetails.User
+
+User(username = username,
+     password = password,
+     enabled = enabled,
+     accountNonExpired = true,
+     credentialsNonExpired = true,
+     accountNonLocked = true,
+     authorities = listOf(SimpleGrantedAuthority("ROLE_REGISTERED")))
+</code></pre>
+</div>
+
+<p class="fragment">
+Nie bardzo&#x2026;
+</p>
+
+</section>
+<section id="slide-org7a0aa4b">
+<h4 id="org7a0aa4b">Świeży IntelliJ i Java</h4>
+
+<div class="figure">
+<p><img src="./img/intellij.png" alt="intellij.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgee15c03">
+<h3 id="orgee15c03">when</h3>
+<ul>
+<li><code>switch</code> na sterydach</li>
+<li>ochroni przed nieobsłużoną wartością w <code>Enum</code>-ie</li>
+<li>nie wspiera pattern matchingu</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >when (x) {
+    0, 1 -&gt; print("x == 0 or x == 1")
+    in 3..5 -&gt; print("3 &lt;= x &lt;= 5")
+    else -&gt; print("otherwise")
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org07a21d2">
+<h3 id="org07a21d2">Funkcje rozszerzające</h3>
+<ul>
+<li>nie modyfikują klas</li>
+<li>zaimplementowane jako funkcje statyczne</li>
+
+</ul>
+
+</section>
+<section id="slide-org50b0a0f">
+<h3 id="org50b0a0f">Funkcje rozszerzające na nullach</h3>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >fun Any?.toString(): String {
+    return if (this == null) "null" else toString()
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga5fe37a">
+<h3 id="orga5fe37a">Kolekcje</h3>
+<ul>
+<li class="fragment">niemutowalne (dostępne warianty mutowalne)</li>
+<li class="fragment"><p>
+ale&#x2026;
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >public operator
+fun &lt;T&gt; Collection&lt;T&gt;.plus(element: T): List&lt;T&gt; {
+    val result = ArrayList&lt;T&gt;(size + 1)
+    result.addAll(this)
+    result.add(element)
+    return result
+}
+</code></pre>
+</div></li>
+<li class="fragment">kompatybilne z interfejsami kolekcji z Javy</li>
+
+</ul>
+
+</section>
+<section id="slide-orge380b41">
+<h3 id="orge380b41">Scope</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" class="fragment">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Java</th>
+<th scope="col" class="org-left">Kotlin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>private</code></td>
+<td class="org-left"><code>private</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>protected</code></td>
+<td class="org-left"><code>protected</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>package</code></td>
+<td class="org-left">-</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>public</code></td>
+<td class="org-left"><code>public</code></td>
+</tr>
+</tbody>
+</table>
+
+<p class="fragment">
+Nowy scope - <b>internal</b>
+</p>
+
+</section>
+<section id="slide-org92b0f16">
+<h3 id="org92b0f16">Etykiety</h3>
+<ul>
+<li><p>
+wyskakiwanie z lambd
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >list.map { value -&gt;
+    repeat(10) {
+        val result = tryToDoSth(value)
+        if (result != null) {
+            return@map result
+        }
+    }
+    null
+}
+</code></pre>
+</div></li>
+<li>odwołania do zewnętrznych <code>this</code></li>
+
+</ul>
+
+</section>
+<section id="slide-orge7e63eb">
+<h3 id="orge7e63eb">Standard.kt</h3>
+<p>
+a w nim funkcje <code>let</code>, <code>apply</code>, <code>with</code>, <code>run</code> - głównie do pracy z nullami i setterami
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >@Bean
+open fun accessTokenConverter(): JwtAccessTokenConverter {
+    return JwtAccessTokenConverter().apply {
+        setSigningKey("123")
+    }
+}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >userRepository.findByEmail(email)?.let {
+    doSthWithUser(it)
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9bd913a">
+<h3 id="org9bd913a">Preconditions.kt</h3>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >fun require(value: Boolean): Unit
+fun require(value: Boolean, lazyMessage: () -&gt; Any): Unit
+
+fun &lt;T:Any&gt; requireNotNull(value: T?): T
+fun &lt;T:Any&gt; requireNotNull(value: T?, lazyMessage: () -&gt; Any): T
+
+fun check(value: Boolean): Unit
+fun check(value: Boolean, lazyMessage: () -&gt; Any): Unit
+
+fun &lt;T:Any&gt; checkNotNull(value: T?): T
+fun &lt;T:Any&gt; checkNotNull(value: T?, lazyMessage: () -&gt; Any): T
+
+fun error(message: Any): Nothing
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgada7a19">
+<h3 id="orgada7a19">Generyki</h3>
+<ul>
+<li>reklamowane jako prostsze</li>
+<li>zamiast <code>? extends</code> i <code>? super</code> - <code>out</code> i <code>in</code></li>
+<li>ma odpowiadać producentowi i konsumentowi</li>
+<li>oczywiście naprawione tablice z Javy</li>
+
+</ul>
+
+</section>
+<section id="slide-org34c7a54">
+<h4 id="org34c7a54">Reified type parameters</h4>
+<p class="fragment">
+pozwala na odwołanie się do klasy generycznego typu
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >verify(aMock).aMethod(any(AParam::class.java))
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >verify(aMock).aMethod(any())
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >inline fun &lt;reified T : Any&gt; any() = Mockito.any(T::class.java)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9b88a18">
+<h3 id="org9b88a18">Adnotacje</h3>
+<ul>
+<li class="fragment"><p>
+dziwna składnia adnotacji
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >@RequestMapping(method = arrayOf(RequestMethod.GET))
+</code></pre>
+</div></li>
+<li class="fragment"><p>
+a zagnieżdżonych jeszcze bardziej
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >@ApiResponses(ApiResponse(code = 400, message = "Bad request"),
+              ApiResponse(code = 409, message = "Conflict"))
+</code></pre>
+</div></li>
+<li class="fragment"><p>
+adnotacje na property - należy określić czy adnotacja ma dotyczyć pola,
+gettera, bądź settera
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >class Token(@get:JsonIgnore val value: String)
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-org295e11f">
+<h3 id="org295e11f">Oraz</h3>
+<ul>
+<li>mapy, flatmapy, itd.</li>
+<li>singletony</li>
+<li>sealed classes</li>
+<li>lateinit</li>
+<li>inline</li>
+<li>infix</li>
+<li>przeciążanie operatorów</li>
+<li>delegacja</li>
+<li>delegacja "pól" - wbudowane <code>lazy</code>, <code>observable</code></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org53283d6">
+<h2 id="org53283d6">Współpraca z Javą</h2>
+<ul>
+<li>brak rozróżnienia na typy mogące być <code>null</code>-em*</li>
+<li>operacje wyłącznie na kolekcjach kotlinowych</li>
+<li>gettery i settery traktowane jako property</li>
+<li>dopasowywanie lambd do interfejsów funkcyjnych</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2fb047c">
+<h2 id="org2fb047c">Spring</h2>
+<div class="outline-text-2" id="text-org2fb047c">
+</div></section>
+<section id="slide-orgbffaa4d">
+<h3 id="orgbffaa4d">final</h3>
+<p class="fragment">Domyślnie klasy i metody posiadają modyfikatory <code>public</code> i <span style="color: red"><code>final</code></span>
+
+<p class="fragment">
+Właściwie dopóki Spring nie potrzebuje proxy (np. przez użycie <code>@Transactional</code>),
+nie ma problemu. Wtedy musimy otworzyć klasę i metody poprzez <code>open</code>
+</p>
+
+</section>
+<section id="slide-org8702fce">
+<h4 id="org8702fce">A czy muszę o tym pamiętać?</h4>
+<p class="fragment">
+Do kotlina 1.0.5 owszem
+</p>
+
+<p class="fragment">
+Od wersji 1.0.6 twórcy złamali swoje założenie i wydali plugin <code>kotlin-allopen</code>
+</p>
+
+<ul class="fragment">
+<li>otwiera wszystko oznaczone wybranymi adnotacjami</li>
+<li>dostępna także konfiguracja z adnotacjami springowymi (<code>kotlin-spring</code>)</li>
+<li>a nawet kolejny plugin <code>no-arg</code>, która dodaje bezargumentowy konstruktor</li>
+
+</ul>
+
+</section>
+<section id="slide-orge008160">
+<h3 id="orge008160">Spring 4.3</h3>
+<p class="fragment">
+Trochę upraszcza
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >@Service
+class MyService(private val otherService: OtherService) {
+    ...
+}
+</code></pre>
+</div>
+
+<p class="fragment">
+zamiast
+</p>
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >@Service
+class MyService @Autowired constructor(
+        private val otherService: OtherService
+) {
+    ...
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgbbdbf33">
+<h3 id="orgbbdbf33">Configuration properties</h3>
+<p class="fragment">
+W kotlinie wygląda brzydko
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >@Configuration
+@ConfigurationProperties("spring.social.google")
+open class GoogleConfiguration {
+    var validity: Duration = Duration.ofDays(3)
+    var clientIds: MutableList&lt;String&gt; = mutableListOf()
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1abd6ab">
+<h3 id="org1abd6ab">Jackson</h3>
+<p class="fragment">
+Nie obędzie się bez dodatkowego modułu - <code>jackson-module-kotlin</code>
+</p>
+
+<p class="fragment">
+Radzi sobie klasami bez domyślnego konstruktora
+</p>
+
+</section>
+<section id="slide-orgdf1fa6a">
+<h3 id="orgdf1fa6a">Spring 5.0</h3>
+<ul>
+<li class="fragment">Spring będzie rozumiał, czy typ może być nullem
+<ul>
+<li><code>@Autowired</code></li>
+<li><code>@RequestParam</code> i <code>@HeaderParam</code></li>
+
+</ul></li>
+<li class="fragment"><p>
+<code>RestTemplate</code> wykorzysta reified&#x2026;
+</p>
+<div class="org-src-container">
+
+<pre><code class="java" >restTemplate.exchange(... new ParameterizedTypeReference&lt;List&lt;Foo&gt;&gt;() { })
+</code></pre>
+</div>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >val result: List&lt;Foo&gt; = restTemplate.getForObject(url)
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org01dbeaf">
+<h2 id="org01dbeaf">Testowanie</h2>
+<div class="outline-text-2" id="text-org01dbeaf">
+</div></section>
+<section id="slide-orge45007e">
+<h3 id="orge45007e">Czego używamy?</h3>
+<ul class="fragment">
+<li>Junit 4.12</li>
+<li>AssertJ 3.x</li>
+<li>mockito-kotlin</li>
+
+</ul>
+
+<p class="fragment">
+Struktura testów nie różni się znacząco od tych z Javy. Miłym dodatkiem jest
+jednak nazewnictwo
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >@Test
+fun `should add numbers`() {
+    assertThat(1 + 1).isEqualTo(2)
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgc1263ae">
+<h3 id="orgc1263ae">final</h3>
+<p>
+Problem analogiczny jak przy Springu - trzeba otworzyć klasę, użyć pluginu
+<code>kotlin-allopen</code>, bądź &#x2026;
+</p>
+
+<p class="fragment">
+&#x2026; otworzyć klasę tylko w teście
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment"><code class="kotlin" >import de.jodamob.kotlin.testrunner.KotlinTestRunner
+
+@RunWith(KotlinTestRunner::class)
+class ATest {
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgebbb006">
+<h3 id="orgebbb006">mockito</h3>
+<p>
+Czyste sprawia problemy:
+</p>
+<ul>
+<li><p>
+<code>when</code> jest słowem kluczowym
+</p>
+<div class="org-src-container">
+
+<pre><code class="kotlin" >`when`(dev.firstName).thenReturn("name")
+</code></pre>
+</div></li>
+<li>matchery zwracają <code>null</code></li>
+
+</ul>
+
+<p class="fragment">
+Z pomocą przychodzi nakładka <b>mockito-kotlin</b>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org54f0dba">
+<h2 id="org54f0dba">W praktyce</h2>
+<div class="outline-text-2" id="text-org54f0dba">
+</div></section>
+<section id="slide-org5e49498">
+<h3 id="org5e49498">Null safety</h3>
+</section>
+<section id="slide-org2d98654">
+<h3 id="org2d98654">Fluent buildery</h3>
+</section>
+</section>
+<section>
+<section id="slide-org4acb27a">
+<h2 id="org4acb27a">Kotlin 1.1</h2>
+<ul>
+<li>będzie można <b>dziedziczyć</b> z data klas, uff</li>
+<li><code>myService::aMethod</code>, (aktualnie wspierane jest jedynie odniesienie do funkcji,
+np. <code>String::length</code>)</li>
+<li>async/await</li>
+<li>aliasy</li>
+<li>wsparcie dla Javy <b>8</b> (streamy, domyślne metody z interfejsów)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org01fd43e">
+<h2 id="org01fd43e">Podsumowanie</h2>
+<p class="fragment">
+Jak oceniam Kotlina?
+</p>
+
+<p class="fragment"><span style="color:blue">Przyjemniejsza</span> Java, prostsza Scala</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfe0f665">
+<h2 id="orgfe0f665">Źródła</h2>
+<ul>
+<li><a href="http://kotlinlang.org/docs/reference/">http://kotlinlang.org/docs/reference/</a></li>
+<li><a href="https://blog.jetbrains.com/kotlin/2016/12/kotlin-1-0-6-is-here/">https://blog.jetbrains.com/kotlin/2016/12/kotlin-1-0-6-is-here/</a></li>
+<li><a href="https://blog.jetbrains.com/kotlin/2016/07/first-glimpse-of-kotlin-1-1-coroutines-type-aliases-and-more/">https://blog.jetbrains.com/kotlin/2016/07/first-glimpse-of-kotlin-1-1-coroutines-type-aliases-and-more/</a></li>
+<li><a href="https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin">https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin</a></li>
+<li><a href="https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0">https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0</a></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgeaf3490">
+<h2 id="orgeaf3490">Dziękuję!</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js-3.3.0/lib/js/head.min.js"></script>
+<script src="./reveal.js-3.3.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+margin: 0.07,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: './reveal.js-3.3.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
