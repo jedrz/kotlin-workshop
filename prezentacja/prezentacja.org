@@ -62,16 +62,17 @@ Wydana 15 lutego 2016.
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
   val a: String? = null
+  val b: String? = "b"
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  a.length    // błąd kompilacji
+  b.length    // błąd kompilacji
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-  val a: String = null    // błąd kompilacji
+  val c: String = null    // błąd kompilacji
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
@@ -95,15 +96,13 @@ Wydana 15 lutego 2016.
 #+REVEAL: split
 
 #+BEGIN_SRC kotlin
-fun findUser(name: String): User?
-
 val name = "Elvis"
-val user: User? = findUser(name)
+val user: User? = userRepository.findByName(name)
 #+END_SRC
 
 #+ATTR_REVEAL: :frag t
 #+BEGIN_SRC kotlin
-val id: Long = user?.id ?: -1
+val id: Long = user?.id ?: userRepository.newIdentity()
 val id: Long = user?.id ?: throw UserNotFoundException()
 val id: Long = user?.id ?: return log.warn("User: $name not found")
 #+END_SRC
